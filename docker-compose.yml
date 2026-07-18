@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  eval-harness:
+    build: .
+    image: llm-eval-harness:latest
+    container_name: llm_eval_harness
+    env_file:
+      - .env
+    volumes:
+      # Persist results outside the container
+      - ./results:/app/results
+      # Allow mounting a custom dataset without rebuilding
+      - ./data:/app/data
+    command: ["python", "-m", "src.main", "--delay", "0.5"]
+
+  # Run tests only
+  test:
+    build: .
+    image: llm-eval-harness:latest
+    container_name: llm_eval_tests
+    env_file:
+      - .env
+    volumes:
+      - ./results:/app/results
+      - ./data:/app/data
+    command: ["pytest", "tests/", "-v", "--tb=short"]
+    profiles:
+      - test

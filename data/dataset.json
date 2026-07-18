@@ -1,0 +1,302 @@
+[
+  {
+    "id": "Q001",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "Canberra",
+    "answer_type": "exact",
+    "phrasings": [
+      "What is the capital of Australia?",
+      "I'm trying to remember - which city serves as Australia's capital?",
+      "Canberra, Sydney, or Melbourne - which one is actually Australia's capital?"
+    ]
+  },
+  {
+    "id": "Q002",
+    "category": "math",
+    "difficulty": "easy",
+    "correct_answer": "150",
+    "answer_type": "numeric",
+    "phrasings": [
+      "If a train travels at 60 mph for 2.5 hours, how far does it travel in miles?",
+      "A train moving at 60 miles per hour completes a journey in 2.5 hours. What is the total distance covered?",
+      "Speed: 60 mph, Time: 2.5 hours. Calculate the distance traveled in miles."
+    ]
+  },
+  {
+    "id": "Q003",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "H2O",
+    "answer_type": "exact",
+    "phrasings": [
+      "What is the chemical formula for water?",
+      "Can you tell me the molecular formula that represents water?",
+      "Which chemical formula correctly represents a water molecule: H2O, CO2, or NaCl?"
+    ]
+  },
+  {
+    "id": "Q004",
+    "category": "math",
+    "difficulty": "medium",
+    "correct_answer": "25",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 5 squared?",
+      "If you multiply 5 by itself, what number do you get?",
+      "Calculate: 5^2 = ?"
+    ]
+  },
+  {
+    "id": "Q005",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "Paris",
+    "answer_type": "exact",
+    "phrasings": [
+      "What is the capital of France?",
+      "Which city is the capital and largest city of France?",
+      "Paris, Lyon, or Marseille - which is the capital of France?"
+    ]
+  },
+  {
+    "id": "Q006",
+    "category": "math",
+    "difficulty": "easy",
+    "correct_answer": "64",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 8 multiplied by 8?",
+      "If you have 8 groups of 8 items, how many items are there in total?",
+      "Calculate the product: 8 × 8 = ?"
+    ]
+  },
+  {
+    "id": "Q007",
+    "category": "logic",
+    "difficulty": "medium",
+    "correct_answer": "Socrates is mortal",
+    "answer_type": "exact",
+    "phrasings": [
+      "All men are mortal. Socrates is a man. What can we conclude about Socrates?",
+      "Given that every human being is mortal and Socrates is a human being, what follows logically?",
+      "Premise 1: All men are mortal. Premise 2: Socrates is a man. What is the logical conclusion?"
+    ]
+  },
+  {
+    "id": "Q008",
+    "category": "factual",
+    "difficulty": "medium",
+    "correct_answer": "1969",
+    "answer_type": "numeric",
+    "phrasings": [
+      "In what year did humans first land on the Moon?",
+      "Which year marked the first successful crewed Moon landing?",
+      "The Apollo 11 mission successfully landed astronauts on the Moon. What year did this happen?"
+    ]
+  },
+  {
+    "id": "Q009",
+    "category": "math",
+    "difficulty": "medium",
+    "correct_answer": "12",
+    "answer_type": "numeric",
+    "phrasings": [
+      "A rectangle has a length of 4 and a width of 3. What is its area?",
+      "What is the area of a rectangle measuring 4 units long and 3 units wide?",
+      "For a rectangle with dimensions 4 × 3, calculate the area."
+    ]
+  },
+  {
+    "id": "Q010",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "8",
+    "answer_type": "numeric",
+    "phrasings": [
+      "How many planets are in our solar system?",
+      "Our solar system contains how many planets in total?",
+      "Count the planets in the solar system: is it 7, 8, or 9?"
+    ]
+  },
+  {
+    "id": "Q011",
+    "category": "math",
+    "difficulty": "hard",
+    "correct_answer": "16",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 2 to the power of 4?",
+      "Calculate two raised to the fourth power.",
+      "2^4 equals what number?"
+    ]
+  },
+  {
+    "id": "Q012",
+    "category": "factual",
+    "difficulty": "medium",
+    "correct_answer": "Neil Armstrong",
+    "answer_type": "exact",
+    "phrasings": [
+      "Who was the first human to walk on the Moon?",
+      "Which astronaut became the first person to set foot on the lunar surface?",
+      "Between Neil Armstrong, Buzz Aldrin, and Michael Collins, who was the first to walk on the Moon?"
+    ]
+  },
+  {
+    "id": "Q013",
+    "category": "math",
+    "difficulty": "medium",
+    "correct_answer": "100",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 10 squared?",
+      "Multiply 10 by itself. What is the result?",
+      "Calculate: 10^2 = ?"
+    ]
+  },
+  {
+    "id": "Q014",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "4",
+    "answer_type": "numeric",
+    "phrasings": [
+      "How many sides does a square have?",
+      "A square is a polygon. How many sides does it have?",
+      "Does a square have 3, 4, or 5 sides?"
+    ]
+  },
+  {
+    "id": "Q015",
+    "category": "logic",
+    "difficulty": "hard",
+    "correct_answer": "Wednesday",
+    "answer_type": "exact",
+    "phrasings": [
+      "If today is Monday, what day will it be in 2 days?",
+      "Starting from Monday and moving forward 2 days, which day of the week do you reach?",
+      "Monday + 2 days = which day: Tuesday, Wednesday, or Thursday?"
+    ]
+  },
+  {
+    "id": "Q016",
+    "category": "factual",
+    "difficulty": "medium",
+    "correct_answer": "Albert Einstein",
+    "answer_type": "exact",
+    "phrasings": [
+      "Who developed the theory of general relativity?",
+      "Which physicist is credited with formulating the general theory of relativity?",
+      "Was it Newton, Einstein, or Bohr who developed the theory of general relativity?"
+    ]
+  },
+  {
+    "id": "Q017",
+    "category": "math",
+    "difficulty": "easy",
+    "correct_answer": "7",
+    "answer_type": "numeric",
+    "phrasings": [
+      "How many days are in a week?",
+      "A week consists of how many days?",
+      "Is it 5, 7, or 10 days in a standard week?"
+    ]
+  },
+  {
+    "id": "Q018",
+    "category": "factual",
+    "difficulty": "medium",
+    "correct_answer": "oxygen",
+    "answer_type": "exact",
+    "phrasings": [
+      "What gas do humans need to breathe to survive?",
+      "Which atmospheric gas is essential for human respiration?",
+      "Humans breathe which gas to survive: nitrogen, oxygen, or carbon dioxide?"
+    ]
+  },
+  {
+    "id": "Q019",
+    "category": "math",
+    "difficulty": "hard",
+    "correct_answer": "28",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 4 multiplied by 7?",
+      "If you have 4 groups of 7 objects, how many objects are there in total?",
+      "Calculate: 4 × 7 = ?"
+    ]
+  },
+  {
+    "id": "Q020",
+    "category": "factual",
+    "difficulty": "easy",
+    "correct_answer": "Rome",
+    "answer_type": "exact",
+    "phrasings": [
+      "What is the capital of Italy?",
+      "Which city is the capital of the Italian Republic?",
+      "Rome, Milan, or Naples - which is the capital of Italy?"
+    ]
+  },
+  {
+    "id": "Q021",
+    "category": "logic",
+    "difficulty": "medium",
+    "correct_answer": "yes",
+    "answer_type": "exact",
+    "phrasings": [
+      "If all cats are animals and Felix is a cat, is Felix an animal?",
+      "Given: every cat is an animal. Felix is a cat. Does it follow that Felix is an animal?",
+      "All cats are animals. Felix is a cat. Is Felix an animal? Answer yes or no."
+    ]
+  },
+  {
+    "id": "Q022",
+    "category": "math",
+    "difficulty": "medium",
+    "correct_answer": "30",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is half of 60?",
+      "Divide 60 by 2. What is the result?",
+      "If you split 60 into two equal parts, how large is each part?"
+    ]
+  },
+  {
+    "id": "Q023",
+    "category": "factual",
+    "difficulty": "hard",
+    "correct_answer": "1776",
+    "answer_type": "numeric",
+    "phrasings": [
+      "In what year did the United States declare independence?",
+      "The US Declaration of Independence was signed in which year?",
+      "Did the US declare independence in 1776, 1789, or 1812?"
+    ]
+  },
+  {
+    "id": "Q024",
+    "category": "factual",
+    "difficulty": "medium",
+    "correct_answer": "carbon dioxide",
+    "answer_type": "exact",
+    "phrasings": [
+      "What gas do humans exhale when they breathe out?",
+      "Which gas is released by the human body during exhalation?",
+      "Humans breathe out which gas: oxygen, carbon dioxide, or nitrogen?"
+    ]
+  },
+  {
+    "id": "Q025",
+    "category": "math",
+    "difficulty": "hard",
+    "correct_answer": "120",
+    "answer_type": "numeric",
+    "phrasings": [
+      "What is 5 factorial (5!)?",
+      "Calculate the factorial of 5, written as 5!",
+      "5! = 5 × 4 × 3 × 2 × 1 = ?"
+    ]
+  }
+]
