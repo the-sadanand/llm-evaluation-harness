@@ -10,6 +10,14 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - optional dependency fallback
+    def load_dotenv() -> bool:
+        return False
+
+load_dotenv(override=True)
+
 from src.providers import ProviderClient, resolve_provider
 
 logging.basicConfig(
@@ -25,9 +33,7 @@ class EvalRunner:
         self.results_dir = Path(results_dir)
         self.results_dir.mkdir(parents=True, exist_ok=True)
         self.provider = resolve_provider(provider)
-        self.model = model or os.getenv("TARGET_MODEL") or (
-            "gemini-2.0-flash" if self.provider == "gemini" else "claude-haiku-4-5-20251001"
-        )
+        self.model = model or os.getenv("TARGET_MODEL") or os.getenv("OLLAMA_MODEL") or "llama3.2:3b"
         self.provider_client = ProviderClient(provider=self.provider, model=self.model)
         self.dataset = self._load_dataset()
         self.max_calls = int(os.getenv("MAX_CALLS", "0"))

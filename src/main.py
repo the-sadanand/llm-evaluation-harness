@@ -10,6 +10,14 @@ import argparse
 import logging
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - optional dependency fallback
+    def load_dotenv() -> bool:
+        return False
+
+load_dotenv(override=True)
+
 # Add project root to path so imports work regardless of CWD
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -25,19 +33,15 @@ logger = logging.getLogger(__name__)
 
 
 def check_env(provider: str | None = None):
-    """Validate required environment variables are present."""
-    selected_provider = provider or os.getenv("LLM_PROVIDER") or "anthropic"
-    if selected_provider.lower() in {"gemini", "google"}:
-        if not os.getenv("GOOGLE_API_KEY"):
-            logger.error("Missing required environment variable: GOOGLE_API_KEY")
-            logger.error("Copy .env.example to .env and fill in your API key.")
-            sys.exit(1)
+    """Validate the local Ollama configuration."""
+    selected_provider = (provider or os.getenv("LLM_PROVIDER") or "ollama").strip().lower()
+    if selected_provider == "ollama":
+        if not os.getenv("OLLAMA_BASE_URL"):
+            logger.warning("OLLAMA_BASE_URL is not set; using the default http://127.0.0.1:11434")
         return
 
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        logger.error("Missing required environment variable: ANTHROPIC_API_KEY")
-        logger.error("Copy .env.example to .env and fill in your API key.")
-        sys.exit(1)
+    logger.error("This project only supports the Ollama provider.")
+    sys.exit(1)
 
 
 def main():
@@ -45,8 +49,9 @@ def main():
     parser.add_argument("--dataset", default="data/dataset.json", help="Path to dataset JSON")
     parser.add_argument("--results", default="results", help="Output directory for results")
     parser.add_argument("--model", default=None, help="Target model to evaluate (overrides TARGET_MODEL env var)")
-    parser.add_argument("--provider", default=None, choices=["anthropic", "gemini"], help="LLM provider to use")
+    parser.add_argument("--provider", default="ollama", choices=["ollama"], help="LLM provider to use")
     parser.add_argument("--judge-model", default=None, help="Judge model to use for LLM-as-judge scoring")
+    parser.add_argument("--max-calls", type=int, default=None, help="Limit the number of prompts sent to the provider")
     parser.add_argument("--delay", type=float, default=0.5, help="Delay in seconds between API calls")
     parser.add_argument(
         "--skip-run", action="store_true",
@@ -57,6 +62,9 @@ def main():
         help="Skip scoring (use existing scored_results.json)"
     )
     args = parser.parse_args()
+
+    if args.max_calls is not None:
+        os.environ["MAX_CALLS"] = str(args.max_calls)
 
     check_env(provider=args.provider)
 

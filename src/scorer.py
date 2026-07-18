@@ -21,9 +21,7 @@ logger = logging.getLogger(__name__)
 class Scorer:
     def __init__(self, judge_model: str = None, provider: str = None):
         self.provider = resolve_provider(provider)
-        self.judge_model = judge_model or os.getenv("JUDGE_MODEL") or (
-            "gemini-2.0-flash" if self.provider == "gemini" else "claude-sonnet-4-6"
-        )
+        self.judge_model = judge_model or os.getenv("JUDGE_MODEL") or os.getenv("OLLAMA_MODEL") or "llama3.2:3b"
         self.provider_client = ProviderClient(provider=self.provider, model=self.judge_model)
 
     # ------------------------------------------------------------------

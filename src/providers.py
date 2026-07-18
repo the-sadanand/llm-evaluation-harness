@@ -1,11 +1,13 @@
-"""Provider abstraction for LLM backends used by the evaluation harness."""
+"""Provider abstraction for the Ollama backend used by the evaluation harness."""
 
 from __future__ import annotations
 
+import json
 import logging
 import os
-import time
 from typing import Optional
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 try:
     from dotenv import load_dotenv
@@ -13,79 +15,37 @@ except ImportError:  # pragma: no cover - optional dependency fallback
     def load_dotenv() -> bool:
         return False
 
-load_dotenv()
+load_dotenv(override=True)
 
 logger = logging.getLogger(__name__)
 
 
 class LLMProviderError(RuntimeError):
-    """Raised when the selected provider cannot be initialized or used."""
+    """Raised when the Ollama provider cannot be initialized or used."""
 
 
 class ProviderClient:
-    """Simple wrapper around Anthropic and Google Gemini providers."""
+    """Simple wrapper around the local Ollama provider."""
 
     def __init__(self, provider: Optional[str] = None, model: Optional[str] = None, api_key: Optional[str] = None):
         self.provider = resolve_provider(provider)
         self.model = model or self._default_model()
         self.api_key = api_key
-        self._client = None
         self._error: Optional[str] = None
-
-        if self.provider == "gemini":
-            self._init_gemini()
-        elif self.provider == "anthropic":
-            self._init_anthropic()
-        else:
-            raise LLMProviderError(f"Unsupported provider: {provider}")
+        self._base_url: Optional[str] = None
+        self._init_ollama()
 
     def _default_model(self) -> str:
-        if resolve_provider() == "gemini":
-            return os.getenv("TARGET_MODEL", "gemini-2.0-flash")
-        return os.getenv("TARGET_MODEL", "claude-haiku-4-5-20251001")
+        return os.getenv("OLLAMA_MODEL", os.getenv("TARGET_MODEL", "llama3.2:3b"))
 
-    def _init_anthropic(self) -> None:
-        try:
-            from anthropic import Anthropic  # type: ignore
-        except ImportError:
-            self._error = "Anthropic package is not installed. Install it with `pip install anthropic`."
+    def _init_ollama(self) -> None:
+        self._base_url = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
+        if not self._base_url:
+            self._error = "OLLAMA_BASE_URL is not set."
             logger.warning(self._error)
-            return
-
-        key = self.api_key or os.getenv("ANTHROPIC_API_KEY")
-        if not key:
-            self._error = "ANTHROPIC_API_KEY is not set."
-            logger.warning(self._error)
-            return
-
-        self._client = Anthropic(api_key=key)
-
-    def _init_gemini(self) -> None:
-        key = self.api_key or os.getenv("GOOGLE_API_KEY")
-        if not key:
-            self._error = "GOOGLE_API_KEY is not set."
-            logger.warning(self._error)
-            return
-
-        try:
-            from google import genai as google_genai  # type: ignore
-        except ImportError:
-            try:
-                import google.generativeai as genai  # type: ignore
-            except ImportError:
-                self._error = "Google Generative AI package is not installed. Install it with `pip install google-generativeai` or `pip install google-genai`."
-                logger.warning(self._error)
-                return
-            genai.configure(api_key=key)
-            self._client = genai
-            self._client_mode = "legacy"
-            return
-
-        self._client = google_genai.Client(api_key=key)
-        self._client_mode = "modern"
 
     def is_available(self) -> bool:
-        return self._error is None and self._client is not None
+        return self._error is None
 
     def get_error(self) -> Optional[str]:
         return self._error
@@ -94,69 +54,38 @@ class ProviderClient:
         if not self.is_available():
             raise LLMProviderError(self._error or "Provider is not available")
 
-        if self.provider == "anthropic":
-            message = self._client.messages.create(
-                model=self.model,
-                max_tokens=max_tokens,
-                messages=[{"role": "user", "content": prompt}],
-            )
-            return message.content[0].text.strip()
-
-        if self.provider == "gemini":
-            max_retries = int(os.getenv("GEMINI_MAX_RETRIES", "3"))
-            base_delay = float(os.getenv("GEMINI_RETRY_DELAY", "5"))
-            last_error: Optional[Exception] = None
-
-            for attempt in range(max_retries + 1):
-                try:
-                    if getattr(self, "_client_mode", "") == "modern":
-                        response = self._client.models.generate_content(
-                            model=self.model,
-                            contents=prompt,
-                            config={"max_output_tokens": max_tokens},
-                        )
-                    else:
-                        model = self._client.GenerativeModel(self.model)
-                        response = model.generate_content(prompt)
-
-                    text = getattr(response, "text", None)
-                    if text:
-                        return str(text).strip()
-                    return str(response).strip()
-                except Exception as exc:  # pragma: no cover - exercised at runtime
-                    last_error = exc
-                    message = str(exc)
-                    if "429" in message or "quota" in message.lower() or "rate limit" in message.lower():
-                        if attempt < max_retries:
-                            delay = base_delay * (attempt + 1)
-                            logger.warning("Gemini quota exceeded, retrying in %ss (%s)", delay, message)
-                            time.sleep(delay)
-                            continue
-                    raise LLMProviderError(message) from exc
-
-            if last_error:
-                raise LLMProviderError(str(last_error))
-
-        raise LLMProviderError(f"Unsupported provider: {self.provider}")
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"num_predict": max_tokens},
+        }
+        request = Request(
+            f"{self._base_url}/api/generate",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        try:
+            with urlopen(request, timeout=180) as response:
+                body = json.loads(response.read().decode("utf-8"))
+                return str(body.get("response", "")).strip()
+        except HTTPError as exc:
+            detail = exc.read().decode("utf-8", "ignore")
+            raise LLMProviderError(f"Ollama request failed ({exc.code}): {detail}") from exc
+        except URLError as exc:
+            raise LLMProviderError(f"Ollama server not reachable at {self._base_url}: {exc.reason}") from exc
 
 
 def resolve_provider(provider: Optional[str] = None) -> str:
     """Resolve the selected provider from environment variables and CLI input."""
-    if provider:
+    if provider is not None:
         value = provider.strip().lower()
-        if value in {"gemini", "google"}:
-            return "gemini"
-        if value in {"anthropic", "claude"}:
-            return "anthropic"
+        if value in {"", "ollama", "local"}:
+            return "ollama"
+        return "ollama"
 
     env_value = (os.getenv("LLM_PROVIDER") or os.getenv("PROVIDER") or "").strip().lower()
-    if env_value in {"gemini", "google"}:
-        return "gemini"
-    if env_value in {"anthropic", "claude"}:
-        return "anthropic"
+    if env_value in {"", "ollama", "local"}:
+        return "ollama"
 
-    if os.getenv("GOOGLE_API_KEY"):
-        return "gemini"
-    if os.getenv("ANTHROPIC_API_KEY"):
-        return "anthropic"
-    return "anthropic"
+    return "ollama"

@@ -1,6 +1,6 @@
 # LLM Evaluation Harness — Summary Report
 
-**Generated:** 2026-07-17 20:25 UTC
+**Generated:** 2026-07-18 05:40 UTC
 
 ---
 
@@ -8,11 +8,11 @@
 
 | Metric | Value |
 |--------|-------|
-| Overall Accuracy | **0.0%** |
-| Total Questions | 4 |
-| Total Phrasings Tested | 10 |
-| Questions Passed All 3 Phrasings | 0 |
-| Questions Failed All 3 Phrasings | 4 |
+| Overall Accuracy | **100.0%** |
+| Total Questions | 1 |
+| Total Phrasings Tested | 3 |
+| Questions Passed All 3 Phrasings | 1 |
+| Questions Failed All 3 Phrasings | 0 |
 | Avg Phrasing Sensitivity (Std Dev) | 0.0000 |
 
 ## Phrasing Sensitivity Analysis
@@ -21,9 +21,9 @@ Accuracy by phrasing variant (phrasing_1 = direct, phrasing_2 = embedded, phrasi
 
 | Phrasing | Accuracy |
 |----------|---------|
-| phrasing_1 | 0.0% |
-| phrasing_2 | 0.0% |
-| phrasing_3 | 0.0% |
+| phrasing_1 | 100.0% |
+| phrasing_2 | 100.0% |
+| phrasing_3 | 100.0% |
 
 > **Phrasing sensitivity spread:** 0.0% difference between best and worst phrasing variant.
 > ✅  Low phrasing sensitivity — the model is relatively robust to rephrasing.
@@ -32,43 +32,32 @@ Accuracy by phrasing variant (phrasing_1 = direct, phrasing_2 = embedded, phrasi
 
 | Category | Accuracy |
 |----------|---------|
-| factual | 0.0% |
-| math | 0.0% |
+| factual | 100.0% |
 
 ## Accuracy by Difficulty
 
 | Difficulty | Accuracy |
 |------------|---------|
-| easy | 0.0% |
-| medium | 0.0% |
+| easy | 100.0% |
 
 ## Most Frequently Failed Questions
 
-- **Q001** (factual, easy): `Canberra` — failed all phrasings
-- **Q002** (math, easy): `150` — failed all phrasings
-- **Q003** (factual, easy): `H2O` — failed all phrasings
-- **Q004** (math, medium): `25` — failed all phrasings
+_No questions failed all three phrasings._
 
 ## Most Phrasing-Sensitive (Flaky) Questions
 
-- **Q001** sensitivity=0.0000 | scores=[0, 0, 0]
-- **Q002** sensitivity=0.0000 | scores=[0, 0, 0]
-- **Q003** sensitivity=0.0000 | scores=[0, 0, 0]
-- **Q004** sensitivity=0.0000 | scores=[0]
+_No flaky questions detected._
 
 ## Per-Question Breakdown
 
 | Q ID | Category | Difficulty | P1 | P2 | P3 | Accuracy | Sensitivity |
 |------|----------|------------|----|----|----|---------:|------------:|
-| Q001 | factual | easy | ❌ | ❌ | ❌ | 0% | 0.0000 |
-| Q002 | math | easy | ❌ | ❌ | ❌ | 0% | 0.0000 |
-| Q003 | factual | easy | ❌ | ❌ | ❌ | 0% | 0.0000 |
-| Q004 | math | medium | ❌ | ❌ | ❌ | 0% | 0.0000 |
+| Q001 | factual | easy | ✅ | ✅ | ✅ | 100% | 0.0000 |
 
 ## Key Insights
 
-1. **Best performing category:** `factual` at 0.0% accuracy.
-2. **Worst performing category:** `factual` at 0.0% accuracy.
+1. **Best performing category:** `factual` at 100.0% accuracy.
+2. **Worst performing category:** `factual` at 100.0% accuracy.
 3. **Phrasing direction effect:** `phrasing_1` outperforms `phrasing_1` by 0.0%.
 4. **Low overall phrasing sensitivity** — the model handles rephrasing well across most question types.
 

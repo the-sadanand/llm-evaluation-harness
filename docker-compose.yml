@@ -7,6 +7,10 @@ services:
     container_name: llm_eval_harness
     env_file:
       - .env
+    environment:
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       # Persist results outside the container
       - ./results:/app/results
@@ -21,6 +25,10 @@ services:
     container_name: llm_eval_tests
     env_file:
       - .env
+    environment:
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./results:/app/results
       - ./data:/app/data
