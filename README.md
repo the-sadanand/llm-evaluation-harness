@@ -67,7 +67,7 @@ Each question has **exactly 3 phrasings**:
 ### 1. Clone and set up
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/the-sadanand/llm-evaluation-harness
 cd llm-eval-harness
 python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -236,9 +236,3 @@ From a sample run against `claude-haiku-4-5-20251001`:
 | Phrasing Sensitivity (avg) | 0.1131 |
 
 **Key finding:** Direct phrasings (phrasing_1) outperform multiple-choice/reversed phrasings (phrasing_3) by ~8%, suggesting the model is slightly more reliable when questions are posed directly rather than as constrained-choice problems.
-
-## Security Notes
-
-- **Never commit your `.env` file** — it is in `.gitignore`
-- LLM judge calls use a separate model to avoid self-evaluation bias
-- API keys are read from environment variables only, never hardcoded
